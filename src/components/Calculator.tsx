@@ -12,13 +12,16 @@ const Calculator = () => {
     setInputValue("");
   };
 
+  const handleBackSpace = () => {
+    setInputValue((prevValue) => prevValue.slice(0, -1));
+  };
+
   const calculateResult = () => {
     try {
       setInputValue((prevValue) => String(eval(prevValue)));
-      console.log(eval(inputValue));
     } catch (error) {
-      console.error("Error in calculation: ", error);
-      setInputValue("Error");
+      alert("Invalid operations");
+      setInputValue("");
     }
   };
 
@@ -63,7 +66,11 @@ const Calculator = () => {
               onClick={() => clearInput()}
               value={"C"}
             /> */}
-            <button className="backspace">
+            <button
+              onClick={handleBackSpace}
+              type="button"
+              className="backspace"
+            >
               <img src={IMAGES.backspace} alt="backspace" />
             </button>
             {["%"].map((val) => (
@@ -77,7 +84,7 @@ const Calculator = () => {
           </div>
           <div className="row">
             {/* Buttons 7 to 9 and addition */}
-            {["7", "8", "9", "X"].map((val) => (
+            {["7", "8", "9", "*"].map((val) => (
               <input
                 key={val}
                 type="button"
