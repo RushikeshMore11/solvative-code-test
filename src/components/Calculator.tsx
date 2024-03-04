@@ -18,7 +18,13 @@ const Calculator = () => {
 
   const calculateResult = () => {
     try {
-      setInputValue((prevValue) => String(eval(prevValue)));
+      const sanitizedInput = inputValue.replace(/(?<=\D|^)0+(?=\d)/g, "");
+      console.log(sanitizedInput);
+      const result = eval(sanitizedInput);
+
+      // Ensuring the result is displayed as a string without leading zeros
+      setInputValue(String(parseFloat(result)));
+      console.log(result);
     } catch (error) {
       alert("Invalid operations");
       setInputValue("");
@@ -73,7 +79,7 @@ const Calculator = () => {
             >
               <img src={IMAGES.backspace} alt="backspace" />
             </button>
-            {["%"].map((val) => (
+            {["/"].map((val) => (
               <input
                 key={val}
                 type="button"
