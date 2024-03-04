@@ -1,8 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IMAGES } from "../assets";
+import { IHistory } from "./calculator.interface";
+import History from "./History";
 
 const Calculator = () => {
   const [inputValue, setInputValue] = useState("");
+  const [isHistoryPanelVisible, setIsHistoryPanelVisible] =
+    useState<boolean>(false);
+  const [history, setHistory] = useState<IHistory[]>([]);
 
   const handleButtonClick = (value: string) => {
     setInputValue((prevValue) => prevValue + value);
@@ -10,6 +15,14 @@ const Calculator = () => {
 
   const clearInput = () => {
     setInputValue("");
+  };
+
+  const toggleHistoryPanel = () => {
+    setIsHistoryPanelVisible(!isHistoryPanelVisible);
+  };
+
+  const clearHistory = () => {
+    setHistory([]);
   };
 
   const handleBackSpace = () => {
@@ -24,12 +37,34 @@ const Calculator = () => {
 
       // Ensuring the result is displayed as a string without leading zeros
       setInputValue(String(parseFloat(result)));
+      setHistory([...history, { input: inputValue, result }]);
       console.log(result);
     } catch (error) {
       alert("Invalid operations");
       setInputValue("");
     }
   };
+
+  useEffect(() => {
+    const storedHistory = JSON.parse(
+      localStorage.getItem("calculatorHistory") || "[]"
+    );
+    setHistory(storedHistory);
+  }, []);
+
+  // Update localStorage whenever history changes
+  useEffect(() => {
+    localStorage.setItem("calculatorHistory", JSON.stringify(history));
+  }, [history]);
+
+  //effect to close the hamburger menu on document click
+  useEffect(() => {
+    document.addEventListener("click", () => setIsHistoryPanelVisible(false));
+
+    return () => {
+      document.addEventListener("click", () => setIsHistoryPanelVisible(false));
+    };
+  }, []);
 
   return (
     <div className="container">
@@ -142,6 +177,13 @@ const Calculator = () => {
           </div>
         </div>
       </form>
+
+      <History
+        isVisible={isHistoryPanelVisible}
+        history={history}
+        clearHistory={clearHistory}
+        toggleHistoryPanel={toggleHistoryPanel}
+      />
     </div>
   );
 };

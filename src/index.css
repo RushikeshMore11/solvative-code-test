@@ -91,8 +91,79 @@ input[type="text"] {
   font-size: 60px;
   line-height: 60px;
   margin: 0 25px;
+  outline: none;
 }
 .red {
   background: linear-gradient(to right, #ffc371, #ff5f6d) !important;
   color: #ffffff !important;
+  border: none;
+  padding: 5px;
+}
+.hamburgerMenu {
+  display: block;
+  position: relative;
+}
+
+.hamburger {
+  position: absolute;
+  top: -6rem;
+  left: 1rem;
+  background-color: transparent;
+  cursor: pointer;
+  border: 0px;
+  padding: 5px;
+}
+
+.history-panel {
+  display: none; /* Hidden by default */
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+}
+
+.history-panel.visible {
+  position: absolute;
+  background-color: white;
+  top: -4.5rem;
+  left: 1rem;
+  right: 1rem;
+  bottom: -1rem;
+  min-height: calc(100vh - 200px);
+  display: block; /* Show when toggled */
+  padding: 10px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.historyUl {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.historyLi {
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+}
+.historyInput {
+  font-size: 12px;
+  font-weight: 400;
+  color: #706868;
+}
+.historyResult {
+  font-size: 16px;
+  font-weight: 700;
+  color: #000;
+}
+
+.close {
+  position: absolute;
+  right: 1rem;
+  cursor: pointer;
+}
+
+button{
+  cursor: pointer;
 }
