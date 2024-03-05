@@ -29,10 +29,25 @@ const Calculator = () => {
     setInputValue((prevValue) => prevValue.slice(0, -1));
   };
 
+  //numeric input before last operator
+  const clearEnd = () => {
+    for (let i = inputValue.length - 1; i >= 0; i--) {
+      if (
+        inputValue[i] === "+" ||
+        inputValue[i] === "-" ||
+        inputValue[i] === "*" ||
+        inputValue[i] === "/"
+      )
+        return;
+      else {
+        handleBackSpace();
+      }
+    }
+  };
+
   const calculateResult = () => {
     try {
       const sanitizedInput = inputValue.replace(/(?<=\D|^)0+(?=\d)/g, "");
-      console.log(sanitizedInput);
       const result = eval(sanitizedInput);
 
       // Ensuring the result is displayed as a string without leading zeros
@@ -41,7 +56,7 @@ const Calculator = () => {
       console.log(result);
     } catch (error) {
       alert("Invalid operations");
-      setInputValue("");
+      return;
     }
   };
 
@@ -91,7 +106,7 @@ const Calculator = () => {
               key={"CE"}
               type="button"
               onClick={() => {
-                alert("Write a function for Clear End");
+                clearEnd();
               }}
               value={"CE"}
             />
