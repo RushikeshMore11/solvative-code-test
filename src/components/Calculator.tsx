@@ -31,17 +31,23 @@ const Calculator = () => {
 
   //numeric input before last operator
   const clearEnd = () => {
+    // Find the index of the last operator
+    let lastOperatorIndex = -1;
     for (let i = inputValue.length - 1; i >= 0; i--) {
-      if (
-        inputValue[i] === "+" ||
-        inputValue[i] === "-" ||
-        inputValue[i] === "*" ||
-        inputValue[i] === "/"
-      )
-        return;
-      else {
-        handleBackSpace();
+      if ("+-*/".includes(inputValue[i])) {
+        lastOperatorIndex = i;
+        break; // Stop at the last operator
       }
+    }
+
+    // If no operator was found, clear the entire input
+    if (lastOperatorIndex === -1) {
+      setInputValue("0");
+    } else {
+      // Only clear up to the last operator if one is found
+      setInputValue((prevValue) =>
+        prevValue.substring(0, lastOperatorIndex + 1)
+      );
     }
   };
 
@@ -53,7 +59,6 @@ const Calculator = () => {
       // Ensuring the result is displayed as a string without leading zeros
       setInputValue(String(parseFloat(result)));
       setHistory([...history, { input: inputValue, result }]);
-      console.log(result);
     } catch (error) {
       alert("Invalid operations");
       return;
